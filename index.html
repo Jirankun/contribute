@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kontributor - TKJ OnE</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0a0a0f;
+      color: #e2e8f0;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      margin-bottom: 2rem;
+      font-size: 2.2rem;
+      text-align: center;
+      background: linear-gradient(90deg, #10b981, #34d399);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: titleAppear 1s ease-out forwards;
+    }
+
+    .contributors-table {
+      width: 100%;
+      max-width: 620px;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: rgba(20, 20, 30, 0.7);
+      backdrop-filter: blur(8px);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(16, 185, 129, 0.2);
+    }
+
+    .contributors-table thead th {
+      background: rgba(10, 10, 15, 0.9);
+      padding: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      color: #a0aec0;
+    }
+
+    .contributors-table tbody tr {
+      opacity: 0;
+      transform: translateX(-20px);
+      animation: rowSlideIn 0.6s ease-out forwards;
+    }
+
+    .contributors-table tbody tr:nth-child(1) { animation-delay: 0.2s; }
+    .contributors-table tbody tr:nth-child(2) { animation-delay: 0.4s; }
+    .contributors-table tbody tr:nth-child(3) { animation-delay: 0.6s; }
+    .contributors-table tbody tr:nth-child(4) { animation-delay: 0.8s; }
+
+    .contributors-table tbody tr:hover {
+      background: rgba(26, 26, 40, 0.8);
+      transform: scale(1.01);
+      transition: all 0.3s ease;
+    }
+
+    .contributors-table td {
+      padding: 1.1rem;
+      text-align: center;
+      font-size: 1.05rem;
+      transition: color 0.2s;
+    }
+
+    .role-tag {
+      background: linear-gradient(135deg, #0d9488, #10b981);
+      color: white;
+      padding: 0.4rem 0.9rem;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      display: inline-block;
+      box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+    }
+
+    /* Animations */
+    @keyframes titleAppear {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes rowSlideIn {
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.7rem;
+        margin-bottom: 1.5rem;
+      }
+      .contributors-table thead th,
+      .contributors-table td {
+        padding: 0.9rem 0.6rem;
+        font-size: 0.95rem;
+      }
+      .role-tag {
+        padding: 0.35rem 0.8rem;
+        font-size: 0.82rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Kontributor TKJ OnE</h1>
+  <table class="contributors-table">
+    <thead>
+      <tr>
+        <th>Nama</th>
+        <th>Kontribusi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Zhyllan Fyllah</td>
+        <td><span class="role-tag">13 Foto, 2 Video</span></td>
+      </tr>
+      <tr>
+        <td>Faldo Adzani</td>
+        <td><span class="role-tag">132 Foto, 0 Video</span></td>
+      </tr>
+      <tr>
+        <td>Yuda Setriawan</td>
+        <td><span class="role-tag">7 Foto, 0 Video</span></td>
+      </tr>
+      <tr>
+        <td>Muhammad Yudha Pratama</td>
+        <td><span class="role-tag">4 Foto, 0 Video</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>Jika kamu tertarik,dan ingin menjadi kontributor dalam penambahan konten,silahkan <a href="https://wa.me/6285165721384">Chat developer</p>
+</body>
+</html>
