@@ -11,6 +11,67 @@
       box-sizing: border-box;
     }
 
+    /* === SCANLINE OVERLAY === */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(rgba(10, 10, 15, 0.03) 50%, transparent 50%);
+      background-size: 100% 4px;
+      z-index: 1000;
+      pointer-events: none;
+      opacity: 0.6;
+      animation: scan 8s linear infinite;
+    }
+
+    /* === GLITCH EFFECT UNTUK JUDUL === */
+    @keyframes glitch-1 {
+      0% { transform: translate(0); }
+      20% { transform: translate(-2px, 2px); }
+      40% { transform: translate(-2px, -2px); }
+      60% { transform: translate(2px, 2px); }
+      80% { transform: translate(2px, -2px); }
+      100% { transform: translate(0); }
+    }
+
+    @keyframes glitch-2 {
+      0%, 100% { opacity: 0; text-shadow: none; }
+      2%, 18%, 22%, 38%, 42%, 58%, 62%, 78%, 82%, 98% { 
+        opacity: 1; 
+        text-shadow: -2px 0 #ff00c8, 2px 0 #00fff6;
+      }
+    }
+
+    h1.glitch {
+      position: relative;
+      animation: glitch-1 3s infinite;
+    }
+
+    h1.glitch::before,
+    h1.glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    h1.glitch::before {
+      animation: glitch-2 3s infinite;
+      clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+      opacity: 0.8;
+    }
+
+    h1.glitch::after {
+      animation: glitch-2 2.8s infinite reverse;
+      clip-path: polygon(0 66%, 100% 66%, 100% 100%, 0 100%);
+      opacity: 0.8;
+    }
+
     body {
       background: #0a0a0f;
       color: #e2e8f0;
@@ -22,19 +83,14 @@
       justify-content: center;
       padding: 2rem;
       overflow-x: hidden;
+      position: relative;
     }
 
     h1 {
       margin-bottom: 2rem;
       font-size: 2.2rem;
       text-align: center;
-      background: linear-gradient(90deg, #10b981, #34d399);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
       opacity: 0;
-      transform: translateY(-20px);
-      animation: titleAppear 1s ease-out forwards;
     }
 
     .contributors-table {
@@ -49,6 +105,8 @@
       box-shadow: 
         0 10px 30px rgba(0, 0, 0, 0.5),
         0 0 0 1px rgba(16, 185, 129, 0.2);
+      opacity: 0;
+      transform: translateY(20px);
     }
 
     .contributors-table thead th {
@@ -61,28 +119,10 @@
       color: #a0aec0;
     }
 
-    .contributors-table tbody tr {
-      opacity: 0;
-      transform: translateX(-20px);
-      animation: rowSlideIn 0.6s ease-out forwards;
-    }
-
-    .contributors-table tbody tr:nth-child(1) { animation-delay: 0.2s; }
-    .contributors-table tbody tr:nth-child(2) { animation-delay: 0.4s; }
-    .contributors-table tbody tr:nth-child(3) { animation-delay: 0.6s; }
-    .contributors-table tbody tr:nth-child(4) { animation-delay: 0.8s; }
-
-    .contributors-table tbody tr:hover {
-      background: rgba(26, 26, 40, 0.8);
-      transform: scale(1.01);
-      transition: all 0.3s ease;
-    }
-
     .contributors-table td {
       padding: 1.1rem;
       text-align: center;
       font-size: 1.05rem;
-      transition: color 0.2s;
     }
 
     .role-tag {
@@ -94,28 +134,40 @@
       font-weight: 600;
       display: inline-block;
       box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+      min-width: 120px;
     }
 
-    /* Animations */
-    @keyframes titleAppear {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .footer-note {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 0.95rem;
+      color: #cbd5e0;
+      max-width: 620px;
+      line-height: 1.5;
+      opacity: 0;
     }
 
-    @keyframes rowSlideIn {
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
+    .footer-note a {
+      color: #34d399;
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 1px solid #34d399;
+    }
+
+    /* Gaya sementara saat decode */
+    .decoding {
+      font-family: monospace !important;
+      font-feature-settings: "tnum";
+    }
+
+    /* Animasi scanline */
+    @keyframes scan {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(4px); }
     }
 
     @media (max-width: 480px) {
-      h1 {
-        font-size: 1.7rem;
-        margin-bottom: 1.5rem;
-      }
+      h1 { font-size: 1.7rem; margin-bottom: 1.5rem; }
       .contributors-table thead th,
       .contributors-table td {
         padding: 0.9rem 0.6rem;
@@ -124,38 +176,157 @@
       .role-tag {
         padding: 0.35rem 0.8rem;
         font-size: 0.82rem;
+        min-width: 100px;
       }
+      .footer-note { font-size: 0.9rem; padding: 0 1rem; }
     }
   </style>
 </head>
 <body>
-  <h1>Kontributor TKJ OnE</h1>
-  <table class="contributors-table">
+  <!-- Judul dengan glitch -->
+  <h1 id="main-title" class="glitch" data-text="Kontributor TKJ OnE">Kontributor TKJ OnE</h1>
+  
+  <table class="contributors-table" id="contribTable">
     <thead>
       <tr>
-        <th>Nama</th>
-        <th>Kontribusi</th>
+        <th><span class="decode-text">Nama</span></th>
+        <th><span class="decode-text">Kontribusi</span></th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td>Zhyllan Fyllah</td>
-        <td><span class="role-tag">13 Foto, 2 Video</span></td>
+        <td><span class="decode-text">Zhyllan Fyllah</span></td>
+        <td>
+          <span class="role-tag">
+            <span class="num" data-value="13">0</span> <span class="decode-text">Foto</span>, 
+            <span class="num" data-value="2">0</span> <span class="decode-text">Video</span>
+          </span>
+        </td>
       </tr>
       <tr>
-        <td>Faldo Adzani</td>
-        <td><span class="role-tag">132 Foto, 0 Video</span></td>
+        <td><span class="decode-text">Faldo Adzani</span></td>
+        <td>
+          <span class="role-tag">
+            <span class="num" data-value="132">0</span> <span class="decode-text">Foto</span>, 
+            <span class="num" data-value="0">0</span> <span class="decode-text">Video</span>
+          </span>
+        </td>
       </tr>
       <tr>
-        <td>Yuda Setriawan</td>
-        <td><span class="role-tag">7 Foto, 0 Video</span></td>
+        <td><span class="decode-text">Yuda Setriawan</span></td>
+        <td>
+          <span class="role-tag">
+            <span class="num" data-value="7">0</span> <span class="decode-text">Foto</span>, 
+            <span class="num" data-value="0">0</span> <span class="decode-text">Video</span>
+          </span>
+        </td>
       </tr>
       <tr>
-        <td>Muhammad Yudha Pratama</td>
-        <td><span class="role-tag">4 Foto, 0 Video</span></td>
+        <td><span class="decode-text">Muhammad Yudha Pratama</span></td>
+        <td>
+          <span class="role-tag">
+            <span class="num" data-value="4">0</span> <span class="decode-text">Foto</span>, 
+            <span class="num" data-value="0">0</span> <span class="decode-text">Video</span>
+          </span>
+        </td>
       </tr>
     </tbody>
   </table>
-  <p>Jika kamu tertarik,dan ingin menjadi kontributor dalam penambahan konten,silahkan <a href="https://wa.me/6285165721384">Chat developer</p>
+
+  <p class="footer-note">
+    <span class="decode-text">Jika kamu tertarik, dan ingin menjadi kontributor dalam penambahan konten, silahkan</span> 
+    <a href="https://wa.me/6285165721384" target="_blank">Chat developer</a>
+  </p>
+
+  <script>
+    const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%';
+
+    // === DECODE TEKS ===
+    function decodeText(el, original, duration = 1000) {
+      el.classList.add('decoding');
+      const steps = Math.floor(duration / 50);
+      let step = 0;
+      
+      const interval = setInterval(() => {
+        let result = '';
+        for (let i = 0; i < original.length; i++) {
+          if (original[i] === ' ') {
+            result += ' ';
+          } else if (step > (i / original.length) * steps) {
+            result += original[i];
+          } else {
+            result += CHARS.charAt(Math.floor(Math.random() * CHARS.length));
+          }
+        }
+        el.textContent = result;
+        step++;
+        
+        if (step > steps) {
+          clearInterval(interval);
+          el.textContent = original;
+          el.classList.remove('decoding');
+        }
+      }, 50);
+    }
+
+    // === ANIMASI ANGKA ===
+    function animateNumber(el, target, duration = 1500) {
+      const start = performance.now();
+      const animate = (now) => {
+        const progress = Math.min((now - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3);
+        const current = Math.floor(target * ease);
+        el.textContent = current;
+        if (progress < 1) requestAnimationFrame(animate);
+        else el.textContent = target;
+      };
+      requestAnimationFrame(animate);
+    }
+
+    // === INISIALISASI ===
+    document.addEventListener('DOMContentLoaded', () => {
+      const title = document.getElementById('main-title');
+      const table = document.getElementById('contribTable');
+      const footer = document.querySelector('.footer-note');
+      const decodeElements = document.querySelectorAll('.decode-text');
+      const numberElements = document.querySelectorAll('.num');
+
+      // Munculkan judul & tabel secara halus
+      setTimeout(() => {
+        title.style.opacity = '1';
+        title.style.transition = 'opacity 0.8s ease';
+        decodeText(title, title.textContent);
+      }, 100);
+
+      setTimeout(() => {
+        table.style.opacity = '1';
+        table.style.transform = 'translateY(0)';
+        table.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      }, 300);
+
+      setTimeout(() => {
+        footer.style.opacity = '1';
+        footer.style.transition = 'opacity 0.8s ease';
+      }, 500);
+
+      // Decode semua teks non-angka
+      decodeElements.forEach((el, i) => {
+        if (el !== title) {
+          setTimeout(() => {
+            decodeText(el, el.textContent);
+          }, 400 + i * 60);
+        }
+      });
+
+      // Animasi angka
+      numberElements.forEach((el, i) => {
+        const target = parseInt(el.getAttribute('data-value')) || 0;
+        setTimeout(() => {
+          animateNumber(el, target);
+        }, 400 + i * 60);
+      });
+    });
+  </script>
 </body>
 </html>
+
